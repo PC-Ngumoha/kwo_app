@@ -20,6 +20,10 @@
   font-family: "Roboto", sans-serif;
 }
 
+body {
+  background-color: var(--color-lighter-gray);
+}
+
 /* :root {
   font-size: 10px;
 }

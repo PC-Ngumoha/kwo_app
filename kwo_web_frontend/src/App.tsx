@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
 import Home from './features/Home/Home';
+import Card from './features/Card/Card';
 
 const router = createBrowserRouter([
   {
@@ -10,7 +11,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/card',
-    element: <div>The Flashcard displays here.</div>,
+    element: <Card />,
   },
 ]);
 

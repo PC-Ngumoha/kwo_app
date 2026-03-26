@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { Navbar, Banner, Footer } from '../../ui';
+import { Navbar, Banner, Footer, Badge } from '../../ui';
 
 type LanguageDeckType = {
   title: string;
@@ -65,13 +65,7 @@ function LanguageDeck({ deck }: { deck: LanguageDeckType }): JSX.Element {
         <div className="text-xs md:text-sm text-gray-500 flex items-center">
           <span className="italic tracking-wider">{deck.cards} cards</span>
           <div className="h-1.5 w-1.5 mx-2 bg-gray-500 rounded-full" />
-          <span
-            className="py-1 px-2 bg-gray-200 capitalize
-                tracking-tight text-[11px] rounded-2xl text-navy-blue font-semibold
-                flex items-center"
-          >
-            {deck.level}
-          </span>
+          <Badge content={deck.level} bold />
         </div>
       </div>
       <div className="my-3 w-full flex flex-col">

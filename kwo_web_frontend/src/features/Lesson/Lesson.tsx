@@ -1,8 +1,32 @@
-import type { JSX } from 'react';
+import { useState, type JSX } from 'react';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { CiCircleInfo, CiUndo, CiPlay1 } from 'react-icons/ci';
 import { Link } from 'react-router';
 import { Badge } from '../../ui';
+
+type CardContentType = {
+  front: string;
+  back: string;
+};
+
+function Card({ content }: { content: CardContentType }): JSX.Element {
+  const [cardFlipped, setCardFlipped] = useState(false);
+
+  return (
+    <article
+      className="bg-white border border-gray-100 w-[80%] md:w-[70%] lg:w-[60%]
+        h-[50%] shadow-sm rounded-xl flex items-center justify-center"
+      onClick={() => setCardFlipped((prev) => !prev)}
+    >
+      <span
+        className="text-4xl md:text-5xl
+          font-bold italic font-fira-sans"
+      >
+        {!cardFlipped ? content.front : content.back}
+      </span>
+    </article>
+  );
+}
 
 function Lesson(): JSX.Element {
   return (
@@ -32,24 +56,14 @@ function Lesson(): JSX.Element {
         </div>
 
         {/* Flash card */}
-        <article
-          className="bg-white border border-gray-100 w-[80%] md:w-[70%] lg:w-[60%]
-        h-[50%] shadow-sm rounded-xl flex items-center justify-center"
-        >
-          <span
-            className="text-4xl md:text-5xl
-          font-bold italic font-fira-sans"
-          >
-            Hello
-          </span>
-        </article>
+        <Card content={{ front: 'hello', back: 'ndewo' }} />
 
         <div className="mt-4 flex">
           <button
             className="h-fit flex capitalize p-2 mr-3 items-center
           text-sm gap-2 text-gray-500"
           >
-            <CiUndo />
+            <CiUndo className="text-lg text-navy-blue" />
             <span>replay audio</span>
             <Badge content="r" bold={false} />
           </button>
@@ -58,7 +72,7 @@ function Lesson(): JSX.Element {
             className="h-fit flex capitalize p-2 mr-3 items-center
           text-sm gap-2 text-gray-500"
           >
-            <CiPlay1 />
+            <CiPlay1 className="text-lg text-navy-blue" />
             <span>show example</span>
             <Badge content="h" bold={false} />
           </button>

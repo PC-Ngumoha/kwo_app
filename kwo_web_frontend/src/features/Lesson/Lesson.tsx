@@ -1,4 +1,7 @@
-import { useState, type JSX } from 'react';
+import {
+  // useState,
+  type JSX,
+} from 'react';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { CiCircleInfo, CiUndo, CiPlay1 } from 'react-icons/ci';
 import { Link } from 'react-router';
@@ -10,20 +13,29 @@ type CardContentType = {
 };
 
 function Card({ content }: { content: CardContentType }): JSX.Element {
-  const [cardFlipped, setCardFlipped] = useState(false);
+  // const [cardFlipped, setCardFlipped] = useState(false);
 
   return (
     <article
-      className="bg-white border border-gray-100 w-[80%] md:w-[70%] lg:w-[60%]
-        h-[50%] shadow-sm rounded-xl flex items-center justify-center"
-      onClick={() => setCardFlipped((prev) => !prev)}
+      className="relative w-[80%] md:w-[70%] lg:w-[60%]
+        h-[50%]"
+      // onClick={() => setCardFlipped((prev) => !prev)}
     >
-      <span
-        className="text-4xl md:text-5xl
-          font-bold italic font-fira-sans"
+      <div
+        className="bg-white border border-gray-100 shadow-sm rounded-xl
+        flex items-center justify-center text-4xl md:text-5xl font-bold
+        italic font-fira-sans w-full h-full absolute"
       >
-        {!cardFlipped ? content.front : content.back}
-      </span>
+        {content.front}
+      </div>
+      {/* Back Card */}
+      <div
+        className="bg-white border border-gray-100 shadow-sm rounded-xl
+        flex items-center justify-center text-4xl md:text-5xl font-bold
+        italic font-fira-sans w-full h-full absolute -z-10"
+      >
+        {content.back}
+      </div>
     </article>
   );
 }

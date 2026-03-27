@@ -1,7 +1,4 @@
-import {
-  // useState,
-  type JSX,
-} from 'react';
+import { useState, type JSX } from 'react';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { CiCircleInfo, CiUndo, CiPlay1 } from 'react-icons/ci';
 import { Link } from 'react-router';
@@ -13,28 +10,36 @@ type CardContentType = {
 };
 
 function Card({ content }: { content: CardContentType }): JSX.Element {
-  // const [cardFlipped, setCardFlipped] = useState(false);
+  const [cardFlipped, setCardFlipped] = useState(false);
 
   return (
+    // Card Container
     <article
       className="relative w-[80%] md:w-[70%] lg:w-[60%]
-        h-[50%]"
-      // onClick={() => setCardFlipped((prev) => !prev)}
+        h-[50%] rounded-xl overflow-hidden"
+      onClick={() => setCardFlipped((prev) => !prev)}
     >
+      {/* Card body */}
       <div
-        className="bg-white border border-gray-100 shadow-sm rounded-xl
-        flex items-center justify-center text-4xl md:text-5xl font-bold
-        italic font-fira-sans w-full h-full absolute"
+        className={`h-full w-full transform-3d  text-4xl md:text-5xl
+        font-bold border border-gray-100 shadow-sm
+        italic font-fira-sans absolute transition-all duration-1000 ease-in
+        ${!cardFlipped ? 'rotate-y-0' : 'rotate-y-180'}`}
       >
-        {content.front}
-      </div>
-      {/* Back Card */}
-      <div
-        className="bg-white border border-gray-100 shadow-sm rounded-xl
-        flex items-center justify-center text-4xl md:text-5xl font-bold
-        italic font-fira-sans w-full h-full absolute -z-10"
-      >
-        {content.back}
+        {/* Front */}
+        <div
+          className="bg-white flex items-center justify-center
+        w-full h-full absolute backface-hidden"
+        >
+          {content.front}
+        </div>
+        {/* Back */}
+        <div
+          className="bg-gray-100 flex items-center justify-center
+        w-full h-full absolute rotate-y-180 backface-hidden"
+        >
+          {content.back}
+        </div>
       </div>
     </article>
   );

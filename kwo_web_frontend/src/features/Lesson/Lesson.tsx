@@ -38,7 +38,7 @@ function Card({ content }: { content: CardContentType }): JSX.Element {
   return (
     // Card Container
     <article
-      className="relative w-[80%] md:w-[60%] lg:w-[50%] h-[50%] rounded-xl overflow-hidden"
+      className="relative w-[80%] md:w-[60%] lg:w-[50%] h-[50%] rounded-xl overflow-hidden z-10"
       onClick={() => setCardFlipped((prev) => !prev)}
     >
       {/* Card body */}
@@ -134,6 +134,7 @@ function Lesson(): JSX.Element {
           </button>
         </div>
 
+        {/* Controls */}
         <div className="absolute h-fit w-full hidden md:flex justify-between p-2">
           <button
             onClick={handlePrevCard}

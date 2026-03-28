@@ -38,13 +38,13 @@ function Card({ content }: { content: CardContentType }): JSX.Element {
   return (
     // Card Container
     <article
-      className="relative w-[80%] md:w-[60%] lg:w-[50%] h-[50%] rounded-xl overflow-hidden z-10"
+      className="relative w-[80%] md:w-[60%] lg:w-[50%] h-[50%] overflow-hidden z-10"
       onClick={() => setCardFlipped((prev) => !prev)}
     >
       {/* Card body */}
       <div
         className={`h-full w-full transform-3d  text-4xl md:text-5xl
-        font-bold border border-gray-100 shadow-sm
+        font-bold shadow-md border border-gray-200
         italic font-fira-sans absolute transition-all duration-1000 ease-in
         ${!cardFlipped ? 'rotate-y-0' : 'rotate-y-180'}`}
       >
@@ -78,7 +78,6 @@ function Lesson(): JSX.Element {
     setSelectedCard((state) =>
       state < contents.length - 1 ? (state += 1) : state
     );
-    // console.log(selectedCard);
   }
 
   return (
@@ -89,13 +88,15 @@ function Lesson(): JSX.Element {
             <FaChevronLeft className="text-xs mr-3" />
             Everyday Basics
           </Link>
-          <span className="text-xs font-semibold tracking-wider">12/40</span>
+          <span className="text-xs font-semibold tracking-wider">
+            {selectedCard + 1}/{contents.length}
+          </span>
         </div>
         <progress
           className="w-full h-1 [&::-webkit-progress-bar]:bg-gray-100
           [&::-webkit-progress-value]:bg-warm-orange"
-          value={12}
-          max={40}
+          value={selectedCard + 1}
+          max={contents.length}
         />
       </nav>
       <section className="flex-1 w-full flex flex-col justify-center items-center">
@@ -134,11 +135,11 @@ function Lesson(): JSX.Element {
           </button>
         </div>
 
-        {/* Controls */}
-        <div className="absolute h-fit w-full hidden md:flex justify-between p-2">
+        {/* Desktop Controls */}
+        <div className="md:absolute h-fit md:w-full flex justify-between gap-2 md:gap-0 p-2">
           <button
             onClick={handlePrevCard}
-            className="py-3 px-6 my-3 w-[10%] bg-gray-300 rounded-3xl
+            className="py-3 px-6 my-3 md:w-[10%] bg-gray-300 rounded-3xl
             capitalize tracking-wide font-semibold text-sm self-end flex
             items-center justify-center gap-2"
           >
@@ -148,7 +149,7 @@ function Lesson(): JSX.Element {
 
           <button
             onClick={handleNextCard}
-            className="py-3 px-6 my-3 w-[10%] bg-warm-orange rounded-3xl
+            className="py-3 px-6 my-3 md:w-[10%] bg-warm-orange rounded-3xl
             capitalize tracking-wide font-semibold text-sm self-end flex
             items-center justify-center gap-2"
           >

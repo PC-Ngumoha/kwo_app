@@ -1,5 +1,5 @@
 import { useState, type JSX } from 'react';
-import { FaChevronLeft } from 'react-icons/fa6';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { CiCircleInfo, CiUndo, CiPlay1 } from 'react-icons/ci';
 import { Link } from 'react-router';
 import { Badge } from '../../ui';
@@ -9,14 +9,56 @@ type CardContentType = {
   back: string;
 };
 
+const contents: CardContentType[] = [
+  { front: 'hello', back: 'ndewo' },
+  { front: 'thank you', back: 'daalụ' },
+  { front: 'good morning', back: 'ụtụtụ ọma' },
+  { front: 'good afternoon', back: 'ehihie ọma' },
+  { front: 'good evening', back: 'mgbede ọma' },
+  { front: 'yes', back: 'ee' },
+  { front: 'no', back: 'mba' },
+  { front: 'please', back: 'biko' },
+  { front: 'sorry', back: 'ndo' },
+  { front: 'welcome', back: 'nnoo' },
+  { front: 'water', back: 'mmiri' },
+  { front: 'food', back: 'nri' },
+  { front: 'house', back: 'ụlọ' },
+  { front: 'family', back: 'ezinụlọ' },
+  { front: 'friend', back: 'enyi' },
+  { front: 'child', back: 'nwa' },
+  { front: 'man', back: 'nwoke' },
+  { front: 'woman', back: 'nwanyị' },
+  { front: 'love', back: 'ịhụnanya' },
+  { front: 'peace', back: 'udo' },
+  { front: 'work', back: 'ọrụ' },
+  { front: 'money', back: 'ego' },
+  { front: 'book', back: 'akwụkwọ' },
+  { front: 'school', back: 'ụlọ akwụkwọ' },
+  { front: 'teacher', back: 'onye nkuzi' },
+  { front: 'student', back: 'nwata akwụkwọ' },
+  { front: 'road', back: 'ụzọ' },
+  { front: 'market', back: 'ahịa' },
+  { front: 'sun', back: 'anyanwụ' },
+  { front: 'moon', back: 'ọnwa' },
+  { front: 'day', back: 'ụbọchị' },
+  { front: 'night', back: 'abalị' },
+  { front: 'time', back: 'oge' },
+  { front: 'name', back: 'aha' },
+  { front: 'who', back: 'onye' },
+  { front: 'what', back: 'gịnị' },
+  { front: 'where', back: 'ebe' },
+  { front: 'when', back: 'mgbe' },
+  { front: 'why', back: 'gịnị mere' },
+  { front: 'how', back: 'kedụ' },
+];
+
 function Card({ content }: { content: CardContentType }): JSX.Element {
   const [cardFlipped, setCardFlipped] = useState(false);
 
   return (
     // Card Container
     <article
-      className="relative w-[80%] md:w-[70%] lg:w-[60%]
-        h-[50%] rounded-xl overflow-hidden"
+      className="relative w-[80%] md:w-[60%] lg:w-[50%] h-[50%] rounded-xl overflow-hidden"
       onClick={() => setCardFlipped((prev) => !prev)}
     >
       {/* Card body */}
@@ -46,8 +88,21 @@ function Card({ content }: { content: CardContentType }): JSX.Element {
 }
 
 function Lesson(): JSX.Element {
+  const [selectedCard, setSelectedCard] = useState(0);
+
+  function handlePrevCard() {
+    setSelectedCard((state) => (state > 0 ? (state -= 1) : state));
+  }
+
+  function handleNextCard() {
+    setSelectedCard((state) =>
+      state < contents.length - 1 ? (state += 1) : state
+    );
+    console.log(selectedCard);
+  }
+
   return (
-    <main className="h-screen w-full flex flex-col">
+    <main className="relative h-screen w-full flex flex-col">
       <nav className=" bg-white w-full h-fit flex flex-col">
         <div className=" p-4 flex justify-between items-center">
           <Link to="/" className="flex items-center font-bold tracking-wide">
@@ -64,16 +119,17 @@ function Lesson(): JSX.Element {
         />
       </nav>
       <section className="flex-1 w-full flex flex-col justify-center items-center">
-        <div
+        <p
           className="flex items-center text-sm text-gray-500
         tracking-tight italic mb-4 gap-1"
         >
           <CiCircleInfo className="text-lg text-navy-blue" />
-          <span>Tip: Flip (click) the card to see the back.</span>
-        </div>
+          Tip: Flip (click) the card to see the back.
+        </p>
 
         {/* Flash card */}
-        <Card content={{ front: 'hello', back: 'ndewo' }} />
+
+        <Card content={contents[selectedCard]} />
 
         <div className="mt-4 flex">
           <button
@@ -92,6 +148,28 @@ function Lesson(): JSX.Element {
             <CiPlay1 className="text-lg text-navy-blue" />
             <span>show example</span>
             <Badge content="h" bold={false} />
+          </button>
+        </div>
+
+        <div className="absolute h-fit w-full hidden md:flex justify-between p-2">
+          <button
+            onClick={handlePrevCard}
+            className="py-3 px-6 my-3 w-[10%] bg-gray-300 rounded-3xl
+            capitalize tracking-wide font-semibold text-sm self-end flex
+            items-center justify-center gap-2"
+          >
+            <FaChevronLeft />
+            Back
+          </button>
+
+          <button
+            onClick={handleNextCard}
+            className="py-3 px-6 my-3 w-[10%] bg-warm-orange rounded-3xl
+            capitalize tracking-wide font-semibold text-sm self-end flex
+            items-center justify-center gap-2"
+          >
+            Next
+            <FaChevronRight />
           </button>
         </div>
       </section>

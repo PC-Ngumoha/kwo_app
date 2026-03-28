@@ -5,51 +5,31 @@ import { Link } from 'react-router';
 import { Badge } from '../../ui';
 
 type CardContentType = {
+  id: number;
   front: string;
   back: string;
 };
 
 const contents: CardContentType[] = [
-  { front: 'hello', back: 'ndewo' },
-  { front: 'thank you', back: 'daalụ' },
-  { front: 'good morning', back: 'ụtụtụ ọma' },
-  { front: 'good afternoon', back: 'ehihie ọma' },
-  { front: 'good evening', back: 'mgbede ọma' },
-  { front: 'yes', back: 'ee' },
-  { front: 'no', back: 'mba' },
-  { front: 'please', back: 'biko' },
-  { front: 'sorry', back: 'ndo' },
-  { front: 'welcome', back: 'nnoo' },
-  { front: 'water', back: 'mmiri' },
-  { front: 'food', back: 'nri' },
-  { front: 'house', back: 'ụlọ' },
-  { front: 'family', back: 'ezinụlọ' },
-  { front: 'friend', back: 'enyi' },
-  { front: 'child', back: 'nwa' },
-  { front: 'man', back: 'nwoke' },
-  { front: 'woman', back: 'nwanyị' },
-  { front: 'love', back: 'ịhụnanya' },
-  { front: 'peace', back: 'udo' },
-  { front: 'work', back: 'ọrụ' },
-  { front: 'money', back: 'ego' },
-  { front: 'book', back: 'akwụkwọ' },
-  { front: 'school', back: 'ụlọ akwụkwọ' },
-  { front: 'teacher', back: 'onye nkuzi' },
-  { front: 'student', back: 'nwata akwụkwọ' },
-  { front: 'road', back: 'ụzọ' },
-  { front: 'market', back: 'ahịa' },
-  { front: 'sun', back: 'anyanwụ' },
-  { front: 'moon', back: 'ọnwa' },
-  { front: 'day', back: 'ụbọchị' },
-  { front: 'night', back: 'abalị' },
-  { front: 'time', back: 'oge' },
-  { front: 'name', back: 'aha' },
-  { front: 'who', back: 'onye' },
-  { front: 'what', back: 'gịnị' },
-  { front: 'where', back: 'ebe' },
-  { front: 'when', back: 'mgbe' },
-  { front: 'why', back: 'gịnị mere' },
-  { front: 'how', back: 'kedụ' },
+  { id: 1, front: 'hello', back: 'ndewo' },
+  { id: 2, front: 'thank you', back: 'daalụ' },
+  { id: 3, front: 'good morning', back: 'ụtụtụ ọma' },
+  { id: 4, front: 'good afternoon', back: 'ehihie ọma' },
+  { id: 5, front: 'good evening', back: 'mgbede ọma' },
+  { id: 6, front: 'yes', back: 'ee' },
+  { id: 7, front: 'no', back: 'mba' },
+  { id: 8, front: 'please', back: 'biko' },
+  { id: 9, front: 'sorry', back: 'ndo' },
+  { id: 10, front: 'welcome', back: 'nnoo' },
+  { id: 11, front: 'water', back: 'mmiri' },
+  { id: 12, front: 'food', back: 'nri' },
+  { id: 13, front: 'house', back: 'ụlọ' },
+  { id: 14, front: 'family', back: 'ezinụlọ' },
+  { id: 15, front: 'friend', back: 'enyi' },
+  { id: 16, front: 'child', back: 'nwa' },
+  { id: 17, front: 'man', back: 'nwoke' },
+  { id: 18, front: 'woman', back: 'nwanyị' },
+  { id: 19, front: 'love', back: 'ịhụnanya' },
 ];
 
 function Card({ content }: { content: CardContentType }): JSX.Element {
@@ -98,7 +78,7 @@ function Lesson(): JSX.Element {
     setSelectedCard((state) =>
       state < contents.length - 1 ? (state += 1) : state
     );
-    console.log(selectedCard);
+    // console.log(selectedCard);
   }
 
   return (
@@ -129,7 +109,10 @@ function Lesson(): JSX.Element {
 
         {/* Flash card */}
 
-        <Card content={contents[selectedCard]} />
+        <Card
+          content={contents[selectedCard]}
+          key={contents[selectedCard].id}
+        />
 
         <div className="mt-4 flex">
           <button

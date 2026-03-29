@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { Navbar, Banner, Footer, Badge } from '../../ui';
+import { Navbar, Banner, Footer, Badge, Button } from '../../ui';
 
 type LanguageDeckType = {
   title: string;
@@ -87,12 +87,13 @@ function LanguageDeck({ deck }: { deck: LanguageDeckType }): JSX.Element {
         [&::-webkit-progress-bar]:bg-orange-100 [&::-webkit-progress-value]:bg-warm-orange"
         />
       </div>
-      <button
+      {/* <button
         className="py-3 px-6 my-3 bg-warm-orange rounded-3xl
             capitalize tracking-wide font-semibold text-sm self-end"
       >
         continue
-      </button>
+      </button> */}
+      <Button className="my-3 bg-warm-orange self-end">continue</Button>
     </div>
   );
 }

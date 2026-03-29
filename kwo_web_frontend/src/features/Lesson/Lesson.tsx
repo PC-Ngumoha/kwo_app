@@ -2,7 +2,7 @@ import { useState, type JSX } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { CiCircleInfo, CiUndo, CiPlay1 } from 'react-icons/ci';
 import { Link } from 'react-router';
-import { Badge } from '../../ui';
+import { Badge, Button } from '../../ui';
 
 type CardContentType = {
   id: number;
@@ -38,27 +38,28 @@ function Card({ content }: { content: CardContentType }): JSX.Element {
   return (
     // Card Container
     <article
-      className="relative w-[80%] md:w-[60%] lg:w-[50%] h-[50%] overflow-hidden z-10"
+      className="relative w-[80%] md:w-[60%] lg:w-[50%] h-[50%] overflow-hidden z-10
+      rounded-xl"
       onClick={() => setCardFlipped((prev) => !prev)}
     >
       {/* Card body */}
       <div
         className={`h-full w-full transform-3d  text-4xl md:text-5xl
-        font-bold shadow-md border border-gray-200
+        font-bold shadow-md border border-gray-200 rounded-xl
         italic font-fira-sans absolute transition-all duration-1000 ease-in
         ${!cardFlipped ? 'rotate-y-0' : 'rotate-y-180'}`}
       >
         {/* Front */}
         <div
           className="bg-white flex items-center justify-center
-        w-full h-full absolute backface-hidden"
+        w-full h-full absolute backface-hidden rounded-xl"
         >
           {content.front}
         </div>
         {/* Back */}
         <div
           className="bg-gray-100 flex items-center justify-center
-        w-full h-full absolute rotate-y-180 backface-hidden"
+        w-full h-full absolute rotate-y-180 backface-hidden rounded-xl"
         >
           {content.back}
         </div>
@@ -102,7 +103,7 @@ function Lesson(): JSX.Element {
       <section className="flex-1 w-full flex flex-col justify-center items-center">
         <p
           className="flex items-center text-sm text-gray-500
-        tracking-tight italic mb-4 gap-1"
+        tracking-tightest italic mb-4 gap-1"
         >
           <CiCircleInfo className="text-lg text-navy-blue" />
           Tip: Flip (click) the card to see the back.
@@ -115,47 +116,53 @@ function Lesson(): JSX.Element {
           key={contents[selectedCard].id}
         />
 
-        <div className="mt-4 flex">
-          <button
-            className="h-fit flex capitalize p-2 mr-3 items-center
+        <div className="mt-4 flex gap-3">
+          <p
+            className="h-fit flex capitalize p-2 items-center
           text-sm gap-2 text-gray-500"
           >
             <CiUndo className="text-lg text-navy-blue" />
             <span>replay audio</span>
             <Badge content="r" bold={false} />
-          </button>
+          </p>
 
-          <button
-            className="h-fit flex capitalize p-2 mr-3 items-center
+          <p
+            className="h-fit flex capitalize p-2 items-center
           text-sm gap-2 text-gray-500"
           >
             <CiPlay1 className="text-lg text-navy-blue" />
             <span>show example</span>
             <Badge content="h" bold={false} />
-          </button>
+          </p>
         </div>
 
-        {/* Desktop Controls */}
+        {/* Controls */}
         <div className="md:absolute h-fit md:w-full flex justify-between gap-2 md:gap-0 p-2">
-          <button
+          {/* <button
             onClick={handlePrevCard}
             className="py-3 px-6 my-3 md:w-[10%] bg-gray-300 rounded-3xl
-            capitalize tracking-wide font-semibold text-sm self-end flex
+            capitalize tracking-wide font-semibold text-sm flex
             items-center justify-center gap-2"
           >
             <FaChevronLeft />
             Back
-          </button>
+          </button> */}
+          <Button
+            onClick={handlePrevCard}
+            className="md:w-[10%] bg-gray-300 flex items-center justify-center gap-2"
+          >
+            <FaChevronLeft />
+            Back
+          </Button>
 
-          <button
+          <Button
             onClick={handleNextCard}
-            className="py-3 px-6 my-3 md:w-[10%] bg-warm-orange rounded-3xl
-            capitalize tracking-wide font-semibold text-sm self-end flex
+            className="md:w-[10%] bg-warm-orange  flex
             items-center justify-center gap-2"
           >
             Next
             <FaChevronRight />
-          </button>
+          </Button>
         </div>
       </section>
     </main>

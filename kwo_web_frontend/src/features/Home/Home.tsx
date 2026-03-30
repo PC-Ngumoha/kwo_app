@@ -1,5 +1,6 @@
-import type { JSX } from 'react';
+import { useEffect, type JSX } from 'react';
 import { Navbar, Banner, Footer, Badge, Button } from '../../ui';
+import { useNavigate } from 'react-router';
 
 type LanguageDeckType = {
   title: string;
@@ -49,6 +50,7 @@ const decks: LanguageDeckType[] = [
 
 function LanguageDeck({ deck }: { deck: LanguageDeckType }): JSX.Element {
   const progress = Math.ceil((deck.completed / deck.cards) * 100);
+  const navigate = useNavigate();
 
   return (
     <div
@@ -87,13 +89,12 @@ function LanguageDeck({ deck }: { deck: LanguageDeckType }): JSX.Element {
         [&::-webkit-progress-bar]:bg-orange-100 [&::-webkit-progress-value]:bg-warm-orange"
         />
       </div>
-      {/* <button
-        className="py-3 px-6 my-3 bg-warm-orange rounded-3xl
-            capitalize tracking-wide font-semibold text-sm self-end"
+      <Button
+        className="my-3 bg-warm-orange self-end"
+        onClick={() => navigate('/lesson')}
       >
         continue
-      </button> */}
-      <Button className="my-3 bg-warm-orange self-end">continue</Button>
+      </Button>
     </div>
   );
 }
@@ -116,6 +117,21 @@ function LanguageDeckGrid({
 }
 
 function Home(): JSX.Element {
+  const IGBO_WORD_BANK_URL =
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vTLoHkFlXkAZqmXL852R6TMqW7Ys027-537V3sNeOz0BC2YxARBvHRV_EZk-D65EdkRg8IqCPjI9uOC/pub?gid=0&single=true&output=csv';
+
+  useEffect(function () {
+    async function fetchWords() {
+      const response = await fetch(IGBO_WORD_BANK_URL);
+      // TODO: Convert from CSV to JSON.
+      const data = await response.text();
+
+      console.log(data);
+    }
+
+    fetchWords();
+  }, []);
+
   return (
     <>
       <Navbar />

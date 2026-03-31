@@ -1,55 +1,35 @@
-import { useEffect, type JSX } from 'react';
-import { Navbar, Banner, Footer, Badge, Button } from '../../ui';
+import { useEffect, useState, type JSX } from 'react';
 import { useNavigate } from 'react-router';
+import Papa from 'papaparse';
+import {
+  Navbar,
+  Banner,
+  Footer,
+  // Badge,
+  Button,
+} from '../../ui';
+
+type DataType = {
+  deck: string;
+  english: string;
+  igbo: string;
+};
+
+type CardType = {
+  id: string;
+  english: string;
+  igbo: string;
+};
 
 type LanguageDeckType = {
   title: string;
-  cards: number;
+  cards: CardType[];
   completed: number;
-  level: 'beginner' | 'intermediate' | 'advanced';
+  // level: 'beginner' | 'intermediate' | 'advanced';
 };
 
-const decks: LanguageDeckType[] = [
-  {
-    title: 'Everyday basics',
-    cards: 30,
-    completed: 20,
-    level: 'beginner',
-  },
-  {
-    title: 'Bible essentials',
-    cards: 100,
-    completed: 20,
-    level: 'intermediate',
-  },
-  {
-    title: 'Kitchen essentials',
-    cards: 30,
-    completed: 20,
-    level: 'beginner',
-  },
-  {
-    title: 'Romance & Love',
-    cards: 50,
-    completed: 10,
-    level: 'advanced',
-  },
-  {
-    title: 'Social interaction',
-    cards: 72,
-    completed: 40,
-    level: 'intermediate',
-  },
-  {
-    title: 'Office & work',
-    cards: 56,
-    completed: 20,
-    level: 'intermediate',
-  },
-];
-
 function LanguageDeck({ deck }: { deck: LanguageDeckType }): JSX.Element {
-  const progress = Math.ceil((deck.completed / deck.cards) * 100);
+  const progress = Math.ceil((deck.completed / deck.cards.length) * 100);
   const navigate = useNavigate();
 
   return (
@@ -65,9 +45,11 @@ function LanguageDeck({ deck }: { deck: LanguageDeckType }): JSX.Element {
           {deck.title}
         </h2>
         <div className="text-xs md:text-sm text-gray-500 flex items-center">
-          <span className="italic tracking-wider">{deck.cards} cards</span>
-          <div className="h-1.5 w-1.5 mx-2 bg-gray-500 rounded-full" />
-          <Badge content={deck.level} bold />
+          <span className="italic tracking-wider">
+            {deck.cards.length} cards
+          </span>
+          {/* <div className="h-1.5 w-1.5 mx-2 bg-gray-500 rounded-full" />
+          <Badge content={deck.level} bold /> */}
         </div>
       </div>
       <div className="my-3 w-full flex flex-col">
@@ -84,7 +66,7 @@ function LanguageDeck({ deck }: { deck: LanguageDeckType }): JSX.Element {
         </div>
         <progress
           value={deck.completed}
-          max={deck.cards}
+          max={deck.cards.length}
           className="my-2 w-full h-2 rounded-full overflow-hidden
         [&::-webkit-progress-bar]:bg-orange-100 [&::-webkit-progress-value]:bg-warm-orange"
         />
@@ -120,16 +102,43 @@ function Home(): JSX.Element {
   const IGBO_WORD_BANK_URL =
     'https://docs.google.com/spreadsheets/d/e/2PACX-1vTLoHkFlXkAZqmXL852R6TMqW7Ys027-537V3sNeOz0BC2YxARBvHRV_EZk-D65EdkRg8IqCPjI9uOC/pub?gid=0&single=true&output=csv';
 
-  useEffect(function () {
-    async function fetchWords() {
-      const response = await fetch(IGBO_WORD_BANK_URL);
-      // TODO: Convert from CSV to JSON.
-      const data = await response.text();
+  const [decks, setDecks] = useState<LanguageDeckType[]>([]);
 
-      console.log(data);
+  function transform(cards: DataType[]): LanguageDeckType[] {
+    const decks: LanguageDeckType[] = [];
+
+    cards.forEach((card) => {
+      const index = decks.findIndex((deck) => deck.title === card.deck);
+
+      const { deck: title, english, igbo } = card;
+
+      if (index < 0) {
+        decks.push({
+          title,
+          cards: [{ id: crypto.randomUUID(), english, igbo }],
+          completed: 0,
+        });
+      } else {
+        decks.at(index)?.cards.push({ id: crypto.randomUUID(), english, igbo });
+      }
+    });
+
+    return decks;
+  }
+
+  useEffect(function () {
+    async function fetchData() {
+      const response = await fetch(IGBO_WORD_BANK_URL);
+      const output = Papa.parse(await response.text(), { header: true });
+      const cards: DataType[] = output.data as DataType[];
+
+      const decks = transform(cards);
+
+      console.log(decks);
+      setDecks(decks);
     }
 
-    fetchWords();
+    fetchData();
   }, []);
 
   return (
